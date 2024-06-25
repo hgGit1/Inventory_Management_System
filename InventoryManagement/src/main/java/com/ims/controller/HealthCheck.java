@@ -1,0 +1,17 @@
+package com.ims.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/checkApp")
+public class HealthCheck {
+	
+	@GetMapping("/show")
+	public String showApp() {
+		return "Health is fine";
+	}
+
+}
