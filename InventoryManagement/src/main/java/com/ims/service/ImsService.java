@@ -16,4 +16,6 @@ public interface ImsService {
 	
 	public Inventory updateInventory(Inventory inventory);
 	
+	public Inventory findInventoryById(int inventoryId);
+	
 }

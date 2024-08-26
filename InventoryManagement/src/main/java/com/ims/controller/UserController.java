@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,25 +21,9 @@ import com.ims.service.UserService;
 public class UserController {
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
-	@PostMapping("/add-user")
-	public ResponseEntity<?> addUser(@RequestBody User user) {
-		String userName = user.getUserName();
-		if(userName!=null) {
-			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);	
-		}
-		int usrId = userService.addNewUser(user);
-		
-		if(usrId !=0) {
-			return new ResponseEntity<>(usrId, HttpStatus.ACCEPTED);
-			
-		}
-		
-		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
-	}
-	
-	@GetMapping("/userlist")
+	@GetMapping("/findUser/userlist")// Admin and support has access
 	public ResponseEntity<?> getAlluser(){
 		List<User> users = userService.getAllUser();
 		
@@ -48,7 +33,7 @@ public class UserController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/ofuser/{id}")
+	@GetMapping("/findUser/{id}")// Admin and support has access
 	public ResponseEntity<?> getUserById(@PathVariable int id){
 		User usr = userService.getUserByUserId(id);
 		
@@ -56,6 +41,13 @@ public class UserController {
 			return new ResponseEntity<>(usr, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@DeleteMapping("/remove/{userId}")//Only Admin has access
+	public ResponseEntity<?> removeUserById(@PathVariable int userId){
+		String deletedMessage = userService.deleteUserById(userId);
+		return new ResponseEntity<>(deletedMessage, HttpStatus.OK);
+		
 	}
 	
 	

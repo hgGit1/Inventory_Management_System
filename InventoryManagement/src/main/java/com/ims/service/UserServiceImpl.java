@@ -58,4 +58,16 @@ public class UserServiceImpl implements UserService{
 		return 0;
 	}
 
+	@Override
+	public String deleteUserById(int userId) {
+		 Optional<User> usr = userRepository.findById(userId);
+		 User userById = usr.get();
+		 if(userById!=null) {
+			 userRepository.deleteById(userId);
+			 return "user deleted of ID: "+userId;
+		 }
+		// TODO Auto-generated method stub
+		return "user of mention ID is not present";
+	}
+
 }

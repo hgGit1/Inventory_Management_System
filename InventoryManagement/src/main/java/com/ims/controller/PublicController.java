@@ -23,11 +23,10 @@ public class PublicController {
 	
 	@PostMapping("/add-user")
 	public ResponseEntity<?> addUser(@RequestBody User user) {
-		String userName = user.getUserName();
-		
-//		if(userName!=null) {
-//			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);	
-//		}
+		User usr = userService.getUserByUserName(user.getUserName());
+		if(usr!=null) {
+			return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);	
+		}
 		int usrId = userService.addNewUser(user);
 		
 		if(usrId !=0) {
@@ -38,14 +37,14 @@ public class PublicController {
 		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 	}
 	
-	@GetMapping("/userlist")
-	public ResponseEntity<?> getAlluser(){
-		List<User> users = userService.getAllUser();
-		
-		if(!users.isEmpty()) {
-			return new ResponseEntity<>(users, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+//	@GetMapping("/userlist")
+//	public ResponseEntity<?> getAlluser(){
+//		List<User> users = userService.getAllUser();
+//		
+//		if(!users.isEmpty()) {
+//			return new ResponseEntity<>(users, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//	}
 
 }

@@ -15,8 +15,6 @@ import jakarta.persistence.Table;
 @Table(name = "Inventory_Detail")
 public class Inventory {
 	
-//	private static final String Mens = "Mens";
-//	private static final String Ladies = "Ladies";
 	
 	public enum catogoryEnum{
 		Mens, Ladies, Kids

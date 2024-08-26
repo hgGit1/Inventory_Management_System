@@ -19,8 +19,11 @@ public class ImsSecurityConfig{
 		
 		http
         .authorizeHttpRequests((requests) -> requests
-        	.requestMatchers("/public/**", "/ims/**").permitAll()
-            .requestMatchers("/user/**").hasRole("ADMIN")
+        	.requestMatchers("/public/**").permitAll()
+        	.requestMatchers("/user/remove/**", "/user/**").hasAnyRole("ADMIN")
+            .requestMatchers("/user/findUser/**","/ims/save-inventory/**","/ims/remove/**","/ims/update/**").hasAnyRole("ADMIN","SUPPORT")
+            .requestMatchers("/ims/showAllInventory/**","ims/findById/**").hasAnyRole("ADMIN","SUPPORT","IMSUSER")
+            
             //.requestMatchers("/ims/**").hasAnyRole("USER", "SUPPORT")
             .anyRequest().authenticated()
         )

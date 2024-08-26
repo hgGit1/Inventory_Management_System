@@ -91,6 +91,16 @@ public class ImsServiceImpl implements ImsService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Inventory findInventoryById(int inventoryId) {
+		// TODO Auto-generated method stub
+		Optional<Inventory> invent= inventoryRepository.findById(inventoryId);
+		if(invent.get()!=null) {
+			return invent.get();
+		}
+		return null;
+	}
 	
 	
 

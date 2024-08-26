@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ims.model.Inventory;
 import com.ims.service.ImsService;
 import com.ims.service.ImsServiceImpl;
+import com.ims.service.UserService;
 
 import jakarta.persistence.PostUpdate;
 
@@ -28,7 +29,7 @@ public class ImsController {
 	@Autowired
 	private ImsService imsService;
 	
-	@GetMapping("/showAllInventory")
+	@GetMapping("/showAllInventory") //Admin,Support,ImsUser has access
 	public ResponseEntity<?> showAllInventory(){
 		
 		List<Inventory> allInventory = imsService.getInventory();
@@ -38,7 +39,7 @@ public class ImsController {
 		return new ResponseEntity<>(allInventory, HttpStatus.NO_CONTENT);
 	}
 	
-	@PostMapping("/save-inventory")
+	@PostMapping("/save-inventory") //Support and Admin has access
 	public ResponseEntity<?> saveInventory(@RequestBody Inventory inventory){
 		
 		Inventory product = imsService.saveInventory(inventory);
@@ -48,7 +49,7 @@ public class ImsController {
 		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 	}
 	
-	@DeleteMapping("/remove/{id}")
+	@DeleteMapping("/remove/{id}")//Support and Admin has access
 	public ResponseEntity<?> removeInventory(@PathVariable int id){
 		
 		int deletedId = imsService.removeInventory(id);
@@ -60,7 +61,7 @@ public class ImsController {
 		
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/update")//Admin and support has access
 	public ResponseEntity<?> updateInventory(@RequestBody Inventory inventory){
 		
 		Inventory product = imsService.updateInventory(inventory);
@@ -69,6 +70,21 @@ public class ImsController {
 		}
 		
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@GetMapping("/findById/{inventoryId}")//Admin, Support and ImsUser has access
+	public ResponseEntity<?> getInventoryById(@PathVariable int inventoryId){
+		
+		Inventory invent = imsService.findInventoryById(inventoryId);
+		
+		if(invent!=null) {
+			return new ResponseEntity<>(invent, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		
 		
 	}
 	
